@@ -1,17 +1,20 @@
 
-//get, patch, delete fixing
+//fixing port
 import express from 'express';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
 import { connectMongo } from './mongo.js';
+import dotenv from 'dotenv'; 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+dotenv.config({ path: join(__dirname, '../.env') });
+
 const app = express();
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '100kb' }));
 app.use(express.static(join(__dirname, '../public')));

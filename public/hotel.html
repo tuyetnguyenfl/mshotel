@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover everyday essentials at HOTEL Shop.">
+  <title>HOTEL | Everyday Essentials</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/app.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="HOTEL home">
+      <span class="brand-mark">H</span>
+      <span>HOTEL<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#management">Manage Products</a>
+    </nav>
+
+    <button id="cart-button" class="button button-dark" type="button">
+      Cart <span id="cart-count" class="cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">THE HOTEL COLLECTION</p>
+        <h1>Good things.<br><span>Everyday.</span></h1>
+        <p class="hero-description">
+          Discover thoughtful essentials for your everyday life.
+          Simple design, useful products, and a better shopping experience.
+        </p>
+        <a href="#shop" class="button button-light">Explore the collection ↗</a>
+        <div class="hero-note">
+          <span class="status-dot"></span>
+          Discover our latest collection
+        </div>
+      </div>
+
+      <div class="hero-art" aria-label="Featured shopping collection">
+        <div class="art-circle"></div>
+        <div class="art-card art-card-back">
+          <span>H / 01</span>
+          <span>EVERYDAY</span>
+        </div>
+        <div class="art-card art-card-front">
+          <span class="art-symbol">H.</span>
+          <span>Made for your day.</span>
+          <span class="art-number">01 — 04</span>
+        </div>
+        <div class="art-caption">THE ESSENTIALS EDITION</div>
+      </div>
+    </section>
+
+    <section id="shop" class="shop-section section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">FIND YOUR FAVORITES</p>
+          <h2>Explore the shop<span class="brand-dot">.</span></h2>
+        </div>
+        <p class="section-subtitle">
+          Useful essentials, selected for everyday living.
+        </p>
+      </div>
+
+      <div class="shop-toolbar">
+        <label class="search-box" for="search-input">
+          <span aria-hidden="true">⌕</span>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Search products..."
+            autocomplete="off"
+          >
+        </label>
+
+        <label class="category-control" for="category-filter">
+          <span>Category</span>
+          <select id="category-filter">
+            <option value="all">All products</option>
+          </select>
+        </label>
+
+        <button id="reset-filters" class="button button-outline" type="button">
+          Reset
+        </button>
+      </div>
+
+      <p id="results-summary" class="results-summary">Loading products...</p>
+
+      <div id="product-grid" class="product-grid" aria-live="polite">
+        <p class="loading-message">Loading your collection...</p>
+      </div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <h3>No products found</h3>
+        <p>Try another search or category.</p>
+      </div>
+    </section>
+
+    <section id="about" class="about-section section">
+      <div class="about-number">01 / ABOUT HOTEL</div>
+      <div>
+        <p class="eyebrow">LESS CLUTTER. MORE GOOD THINGS.</p>
+        <h2>Everyday essentials,<br>made easy.</h2>
+        <p>
+          HOTEL is a demonstration online shop built to make browsing and
+          managing products straightforward. Explore the collection, search
+          by category, view product details, and try the cart.
+        </p>
+      </div>
+    </section>
+
+    <section id="management" class="management-section section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">STORE WORKSPACE</p>
+          <h2>Product management<span class="brand-dot">.</span></h2>
+        </div>
+        <button id="add-product-button" class="button button-dark" type="button">
+          + Add product
+        </button>
+      </div>
+
+      <p class="management-notice">
+        Assignment demonstration: these controls call the Express API and
+        change records stored in MongoDB. This panel has no administrator
+        authentication; do not expose it publicly without access controls.
+      </p>
+
+      <div id="management-message" class="inline-message hidden" role="status"></div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="management-table-body">
+            <tr>
+              <td colspan="4">Loading products...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="/">
+      <span class="brand-mark">H</span>
+      HOTEL<span class="brand-dot">.</span>
+    </a>
+    <p>A full-stack shop powered by Express and MongoDB.</p>
+    <p>© <span id="current-year"></span> HOTEL Shop</p>
+  </footer>
+
+  <!-- Product details dialog -->
+  <dialog id="product-dialog" class="dialog">
+    <div class="dialog-header">
+      <p class="eyebrow">PRODUCT DETAILS</p>
+      <button class="icon-button" data-close-dialog="product-dialog"
+        aria-label="Close product details" type="button">×</button>
+    </div>
+    <div id="product-details-content"></div>
+  </dialog>
+
+  <!-- Cart dialog -->
+  <dialog id="cart-dialog" class="dialog">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">YOUR SELECTION</p>
+        <h2>Your cart</h2>
+      </div>
+      <button class="icon-button" data-close-dialog="cart-dialog"
+        aria-label="Close cart" type="button">×</button>
+    </div>
+
+    <div id="cart-content"></div>
+
+    <div class="cart-total-row">
+      <span>Subtotal</span>
+      <strong id="cart-total">$0.00</strong>
+    </div>
+
+    <p class="cart-disclaimer">
+      Demo cart only. Checkout, orders, and payments are not implemented.
+    </p>
+    <button id="clear-cart-button" class="button button-outline button-full"
+      type="button">Clear cart</button>
+  </dialog>
+
+  <!-- Create / edit product dialog -->
+  <dialog id="product-form-dialog" class="dialog">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">STORE WORKSPACE</p>
+        <h2 id="product-form-title">Add a product</h2>
+      </div>
+      <button class="icon-button" data-close-dialog="product-form-dialog"
+        aria-label="Close product form" type="button">×</button>
+    </div>
+
+    <form id="product-form" class="product-form">
+      <input id="product-id" type="hidden">
+
+      <label for="product-name">Product name *</label>
+      <input id="product-name" name="name" type="text" required maxlength="120">
+
+      <label for="product-category">Category *</label>
+      <input id="product-category" name="category" type="text"
+        required maxlength="60" placeholder="e.g. Accessories">
+
+      <label for="product-price">Price (USD) *</label>
+      <input id="product-price" name="price" type="number"
+        min="0" step="0.01" required>
+
+      <label for="product-image">Image URL</label>
+      <input id="product-image" name="imageUrl" type="url"
+        placeholder="https://example.com/product.jpg">
+
+      <label for="product-description">Description</label>
+      <textarea id="product-description" name="description"
+        rows="4" maxlength="1000"></textarea>
+
+      <div id="product-form-error" class="form-error hidden" role="alert"></div>
+
+      <div class="form-actions">
+        <button class="button button-outline" data-close-dialog="product-form-dialog"
+          type="button">Cancel</button>
+        <button class="button button-dark" type="submit">Save product</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

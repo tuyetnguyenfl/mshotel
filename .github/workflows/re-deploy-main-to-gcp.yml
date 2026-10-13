@@ -28,7 +28,7 @@ jobs:
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          APP_DIR: dev-golf/server
+          APP_DIR: mshotel/server
           PM2_NAME: app
         run: |
           ssh -i ~/.ssh/deploy_key -T "$SSH_USER@$SSH_HOST" <<EOF

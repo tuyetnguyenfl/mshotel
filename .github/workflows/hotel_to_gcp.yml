@@ -1,4 +1,4 @@
-name: main.yml
+name: hotel_to_gcp.yml
 
 on:
   push:

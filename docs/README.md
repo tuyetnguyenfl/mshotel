@@ -25,11 +25,10 @@ mshotel/
 ├── .gitignore
 └─
 
-
 ## Milestones and Issues
 
-- Milestone: README complete https://github.com/tuyetnguyenfl/mshotel/milestone/1
-- Issues:write README https://github.com/tuyetnguyenfl/mshotel/issues/1
+- **Milestone:** [README complete](https://github.com/tuyetnguyenfl/mshotel/milestone/1)
+- **Issue:** [Write README](https://github.com/tuyetnguyenfl/mshotel/issues/1)
  
 
 ## deployment

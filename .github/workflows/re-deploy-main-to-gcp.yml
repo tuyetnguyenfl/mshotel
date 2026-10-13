@@ -1,8 +1,10 @@
-name: re-deploy-main-to-gcp.yml
+
+name: re-deploy-main-to-gcp.yaml
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -12,35 +14,51 @@ jobs:
     steps:
       - name: Prepare SSH
         shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+          set -euo pipefail
 
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_HOST"
 
-          # safer than StrictHostKeyChecking=no
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
 
-      - name: Deploy over SSH
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/deploy_key"
+          chmod 600 "$HOME/.ssh/deploy_key"
+
+          ssh-keygen -y -f "$HOME/.ssh/deploy_key" > /dev/null
+
+          ssh-keyscan -T 10 -H "$SSH_HOST" >> "$HOME/.ssh/known_hosts"
+          chmod 644 "$HOME/.ssh/known_hosts"
+
+      - name: Deploy HOTEL over SSH
         shell: bash
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          APP_DIR: mshotel/server
-          PM2_NAME: app
         run: |
-          ssh -i ~/.ssh/deploy_key -T "$SSH_USER@$SSH_HOST" <<EOF
-            set -e
+          set -euo pipefail
 
-            cd "$APP_DIR"
+          ssh -i "$HOME/.ssh/deploy_key" \
+            -o BatchMode=yes \
+            "$SSH_USER@$SSH_HOST" <<'EOF'
+          set -euo pipefail
 
-            git pull
-            npm ci
+          cd /var/www/mshotel
+          git pull --ff-only origin main
 
-            pm2 restart "$PM2_NAME" || pm2 start server.js --name "$PM2_NAME"
+          cd /var/www/mshotel/server
+          npm ci --omit=dev
 
-            pm2 save
+          node --check app.js
+          node --check mongo.js
+
+          pm2 restart mshotel --update-env
+          pm2 save
+
+          echo "HOTEL deployment completed."
           EOF
-
+```

@@ -1,0 +1,44 @@
+
+        name: Prepare SSH
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          set -euxo pipefail
+
+          echo "Checking required secrets..."
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_HOST"
+
+          echo "Creating SSH directory..."
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+
+          echo "Writing SSH private key..."
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/deploy_key"
+          chmod 600 "$HOME/.ssh/deploy_key"
+
+          echo "Validating private key..."
+          ssh-keygen -y -f "$HOME/.ssh/deploy_key" > /dev/null
+
+          echo "Adding server host key..."
+          ssh-keyscan -T 10 -H "$SSH_HOST" >> "$HOME/.ssh/known_hosts"
+          test -s "$HOME/.ssh/known_hosts"
+          chmod 644 "$HOME/.ssh/known_hosts"
+
+          echo "SSH setup completed."
+```
+        run: |
+          ssh -i ~/.ssh/deploy_key -T "$SSH_USER@$SSH_HOST" <<EOF
+            set -e
+
+            cd "$APP_DIR"
+
+            git pull
+            npm ci
+
+            pm2 restart "$PM2_NAME" || pm2 start server.js --name "$PM2_NAME"
+
+            pm2 save
+          EOF

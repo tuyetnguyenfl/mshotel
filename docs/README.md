@@ -28,9 +28,9 @@ mshotel/
 
 ## Milestones and Issues
 
-- **Milestone:** 
-- **Project issues:** 
-- **Project board:** 
+- Milestone: README complete https://github.com/tuyetnguyenfl/mshotel/milestone/1
+- Issues:write README https://github.com/tuyetnguyenfl/mshotel/issues/1
+ 
 
 ## deployment
 production app: https://tuyet.barrycumbie.com

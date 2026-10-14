@@ -61,4 +61,3 @@ jobs:
 
           echo "HOTEL deployment completed."
           EOF
-```

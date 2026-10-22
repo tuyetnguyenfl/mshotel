@@ -434,192 +434,18 @@ Future account registration and restricted-viewing functionality will have separ
 
 ## 11. GitHub Milestones
 
-The project will use five milestones to organize development. If milestones already exist in GitHub, their actual names and URLs should be used in this document.
-
-### Milestone 1 — Personal Identity & Website Foundation
-
-**Objective:** Establish the website's identity, layout, navigation, and initial deployment.
-
-Expected work:
-
-- Build the responsive page structure.
-- Add personal profile and introduction sections.
-- Establish consistent navigation and styling.
-- Verify the existing frontend and backend foundation.
-- Document local setup and configuration.
-
-### Milestone 2 — Blog & Content Management
-
-**Objective:** Provide persistent content browsing and creator-only management.
-
-Expected work:
-
-- Define blog and hobby content models.
-- Implement content API endpoints.
-- Connect the frontend to the Express API.
-- Store content in MongoDB Atlas.
-- Protect creator-only content operations.
-
-### Milestone 3 — Community & Live Streaming
-
-**Objective:** Implement the live-streaming architecture and community interaction.
-
-Expected work:
-
-- Compare and select the streaming provider.
-- Implement secure live-session management.
-- Build browser-based broadcasting.
-- Build the public viewing page.
-- Implement real-time comments using Socket.IO.
-- Store comment history in MongoDB.
-
-### Milestone 4 — User Testing & Security
-
-**Objective:** Verify functionality, security, and usability.
-
-Expected work:
-
-- Test multiple simultaneous viewers.
-- Verify creator authorization.
-- Test camera and microphone permissions.
-- Test comments, moderation, and reconnection behavior.
-- Test mobile usability and error handling.
-- Review secrets and deployment configuration.
-
-### Milestone 5 — Demo Ready & Release 1.0
-
-**Objective:** Complete the documentation, deployment verification, and final demonstration.
-
-Expected work:
-
-- Resolve critical issues.
-- Verify the deployed user experience.
-- Complete setup and troubleshooting documentation.
-- Prepare a demonstration of the core features.
-- Confirm the definition of done.
+1. [Personal Identity & Website Foundation](https://github.com/tuyetnguyenfl/mshotel/milestone/2)
+2. [Blog & Content Management](https://github.com/tuyetnguyenfl/mshotel/milestone/3)
+3. [Community & Live Streaming](https://github.com/tuyetnguyenfl/mshotel/milestone/4)
+4. [User Testing & Security](https://github.com/tuyetnguyenfl/mshotel/milestone/5)
+5. [Demo Ready & Release 1.0](https://github.com/tuyetnguyenfl/mshotel/milestone/6)
 
 ## 12. GitHub Issues and Implementation Order
 
-The following seven issues organize the implementation work. Actual issue numbers and URLs should be added after the issues have been created in GitHub.
-
-### Issue 1 — Research and Select the Live Streaming Approach
-
-**Priority:** P0 — Blocking research
-
-**Purpose:** Evaluate managed SFU providers and select a suitable live-streaming approach before implementing provider-dependent functionality.
-
-**Acceptance criteria:**
-
-- Compare suitable providers, capabilities, pricing, usage limits, and deployment requirements.
-- Confirm browser camera and microphone publishing support.
-- Confirm public viewing and multi-viewer support.
-- Evaluate short-lived publishing and viewing credentials or equivalent security controls.
-- Evaluate whether restricted viewing can be enforced at the provider level.
-- Document the selected provider and architecture decision.
-
-### Issue 2 — Implement Secure Live-Session Management
-
-**Priority:** P0 — Backend
-
-**Purpose:** Provide server-side live-session management and secure authorization.
-
-**Acceptance criteria:**
-
-- Define a persistent live-session model in MongoDB.
-- Implement the required Express API endpoints.
-- Allow only the authorized creator to start and end broadcasts.
-- Store the session access mode, defaulting to `public`.
-- Validate supported access-mode values.
-- Verify viewing eligibility before issuing viewing credentials.
-- Issue publishing credentials only to the authorized creator.
-- Keep provider secrets on the server.
-- Return only the information required by the frontend.
-- Structure the authorization logic to support future authenticated and approved-user viewing.
-
-### Issue 3 — Build Browser-Camera Broadcasting
-
-**Priority:** P0 — Frontend
-
-**Purpose:** Enable the creator to broadcast directly from the website.
-
-**Acceptance criteria:**
-
-- Request camera and microphone permissions.
-- Provide a local media preview.
-- Start and stop broadcasting through the selected provider.
-- Display helpful errors for denied permissions and failed connections.
-- Stop local media tracks when the creator ends the session.
-- Prevent unauthorized visitors from publishing.
-
-### Issue 4 — Build the Public Live-Viewing Page
-
-**Priority:** P0 — Frontend
-
-**Purpose:** Allow visitors to watch the creator's public broadcast while keeping the frontend compatible with future access restrictions.
-
-**Acceptance criteria:**
-
-- Allow public visitors to watch without an account in Release 1.0.
-- Display live, offline, and ended states.
-- Connect viewers to the selected streaming provider.
-- Obtain viewing access through the backend's authorization flow.
-- Prevent viewers from publishing or controlling the broadcast.
-- Handle unavailable streams, connection errors, and reconnections.
-- Avoid exposing unrestricted provider credentials in frontend code.
-- Support future sign-in prompts and access-denied states for restricted streams.
-
-### Issue 5 — Implement Real-Time Comments with Socket.IO
-
-**Priority:** P0 — Backend and frontend
-
-**Purpose:** Provide real-time conversation during live broadcasts.
-
-**Acceptance criteria:**
-
-- Display comments without requiring page refreshes.
-- Associate comments with the correct live session.
-- Persist comments in MongoDB.
-- Load recent comment history.
-- Validate comment content and enforce reasonable length limits.
-- Apply basic rate limiting and spam prevention.
-- Restrict moderation events to authorized users.
-- Keep comment delivery isolated by live-session room.
-
-### Issue 6 — Add Moderation and Creator Authorization
-
-**Priority:** P1 — Security
-
-**Purpose:** Protect creator controls and maintain a safer community.
-
-**Acceptance criteria:**
-
-- Protect creator-only broadcast and content-management actions.
-- Prevent unauthorized users from accessing moderation controls.
-- Allow the creator to remove comments.
-- Protect credentials and publishing tokens.
-- Validate requests and apply appropriate rate limits.
-- Document the future approach to user authentication and restricted viewing.
-- Verify that security decisions are enforced by the backend rather than the frontend alone.
-
-### Issue 7 — Test and Deploy the Complete Live Experience
-
-**Priority:** P1 — Testing and release
-
-**Purpose:** Verify that the integrated live-streaming experience works in the deployed environment.
-
-**Acceptance criteria:**
-
-- Test the deployed creator broadcast workflow.
-- Verify viewing from multiple browser sessions.
-- Test real-time comments and comment history.
-- Test session ending, reconnection, and unavailable-stream behavior.
-- Test camera permissions and mobile browser usability.
-- Verify that visitors cannot publish to the channel.
-- Review secrets and environment configuration.
-- Update setup, configuration, and troubleshooting documentation.
-- Demonstrate the complete Release 1.0 workflow.
-
----
+1. [Issue 1: Research and Select the Live Streaming Approach](https://github.com/tuyetnguyenfl/mshotel/issues/3)
+2. [Issue 2: Implement Secure Live-Session Management](https://github.com/tuyetnguyenfl/mshotel/issues/4)
+3. [Issue 3: Build Browser-Camera Broadcasting](https://github.com/tuyetnguyenfl/mshotel/issues/5)
+4. [Issue 4: Build Public Live-Viewing Page](https://github.com/tuyetnguyenfl/mshotel/issues/6)
 
 ## 13. Project Risks and Open Questions
 
@@ -635,8 +461,6 @@ The following seven issues organize the implementation work. Actual issue number
 | Internet interruptions | Handle connection states and provide appropriate recovery behavior |
 | Deployment configuration | Verify environment variables, provider configuration, and HTTPS requirements |
 | Project scope | Prioritize the minimum viable product and defer advanced features |
-
----
 
 ## 14. Future Enhancements — Spring 99
 

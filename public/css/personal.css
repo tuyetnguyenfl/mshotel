@@ -1,0 +1,918 @@
+/* =====================================================
+   BEYOND MY PAGE
+   Nature-inspired | Cinematic | Elegant
+   ===================================================== */
+
+
+/* =========================
+   1. GLOBAL SETTINGS
+========================= */
+
+:root {
+    --navy: #183b4b;
+    --deep-blue: #244d5b;
+    --forest: #385b49;
+    --sage: #8a9b83;
+    --light-sage: #e9eee7;
+    --cream: #f7f6f0;
+    --warm-white: #fcfbf7;
+    --sand: #e9e2d5;
+    --text: #35434a;
+    --muted: #78817d;
+    --white: #ffffff;
+
+    --heading-font: "Cormorant Garamond", serif;
+    --body-font: "DM Sans", sans-serif;
+    --script-font: "Tangerine", cursive;
+
+    --section-width: 1160px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: var(--body-font);
+    color: var(--text);
+    background: var(--warm-white);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+.section-container {
+    width: min(90%, var(--section-width));
+    margin: 0 auto;
+}
+
+.section-padding {
+    padding: 110px 0;
+}
+
+.section-label {
+    color: var(--forest);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.section-title {
+    font-family: var(--heading-font);
+    font-size: clamp(2.6rem, 5vw, 4.1rem);
+    font-weight: 500;
+    line-height: 1.08;
+    color: var(--navy);
+    margin-bottom: 25px;
+}
+
+p {
+    font-size: 0.98rem;
+}
+
+
+/* =========================
+   2. NAVIGATION
+========================= */
+
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.nav-container {
+    width: min(90%, 1320px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.brand {
+    font-family: var(--heading-font);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+}
+
+.brand span:first-child {
+    color: #d5e0d1;
+}
+
+.brand-dot {
+    color: #d4b17c;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.main-nav a {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: #d7c49e;
+}
+
+.main-nav .nav-contact {
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 30px;
+    padding: 10px 19px;
+}
+
+.main-nav .nav-contact:hover {
+    background: var(--white);
+    color: var(--navy);
+}
+
+
+/* =========================
+   3. CINEMATIC HERO
+========================= */
+
+.hero {
+    min-height: 760px;
+    height: 100vh;
+    max-height: 960px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #344c51;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+
+    background-image: url("/images/sunset.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    transform: scale(1.02);
+    animation: heroReveal 1.8s ease-out both;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(14, 34, 42, 0.67) 0%,
+            rgba(20, 43, 48, 0.35) 45%,
+            rgba(20, 43, 48, 0.04) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(12, 30, 35, 0.38) 0%,
+            transparent 45%
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(90%, 1160px);
+    margin: 50px auto 0;
+    color: var(--white);
+    animation: contentReveal 1.2s ease-out both;
+}
+
+.hero-eyebrow {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-family: var(--heading-font);
+    font-size: clamp(4.5rem, 10vw, 8.5rem);
+    line-height: 0.85;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    margin-bottom: 30px;
+}
+
+.hero h1 span {
+    color: #d7b989;
+}
+
+.hero-description {
+    max-width: 450px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 35px;
+}
+
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 25px;
+    padding: 14px 23px;
+    background: var(--white);
+    color: var(--navy);
+    border: 1px solid var(--white);
+    border-radius: 2px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.35s ease;
+}
+
+.hero-button span {
+    font-size: 1.1rem;
+    transition: transform 0.35s ease;
+}
+
+.hero-button:hover {
+    background: transparent;
+    color: var(--white);
+}
+
+.hero-button:hover span {
+    transform: translate(4px, -3px);
+}
+
+.hero-bottom {
+    position: absolute;
+    z-index: 2;
+    bottom: 35px;
+    left: 5%;
+    right: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+}
+
+.hero-bottom a {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 50%;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.hero-bottom a:hover {
+    background: var(--white);
+    color: var(--navy);
+}
+
+
+/* =========================
+   4. PERSONAL PHILOSOPHY
+========================= */
+
+.philosophy {
+    background: var(--cream);
+    text-align: center;
+    position: relative;
+}
+
+.philosophy-container {
+    max-width: 900px;
+}
+
+.philosophy-heading {
+    font-family: var(--heading-font);
+    font-size: clamp(2rem, 4.2vw, 3.3rem);
+    line-height: 1.3;
+    font-weight: 500;
+    color: var(--navy);
+    max-width: 850px;
+    margin: 0 auto 32px;
+}
+
+.handwritten-quote {
+    margin: 35px auto;
+    color: var(--forest);
+    font-family: var(--script-font);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 0.95;
+}
+
+.handwritten-quote p {
+    font-family: var(--script-font);
+    font-size: inherit;
+    font-weight: 700;
+    line-height: 0.95;
+    margin: 8px 0;
+}
+
+.handwritten-quote p:nth-child(2) {
+    color: var(--deep-blue);
+}
+
+.philosophy-note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 550px;
+    margin: 25px auto 0;
+}
+
+
+/* ABOUT IMAGE - CLEAN FRAME */
+
+.about-visual {
+    position: relative;
+    padding: 0;
+    border: 1px solid var(--sage);
+    background: var(--warm-white);
+    padding: 12px;
+}
+
+.about-photo-frame {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    background: var(--sand);
+    position: relative;
+    z-index: 1;
+}
+
+.about-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s ease;
+}
+
+.about-photo-frame:hover img {
+    transform: scale(1.045);
+}
+
+.about-photo-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px 2px 4px;
+    color: var(--muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+}
+
+
+/* =========================
+   6. INTERESTS
+========================= */
+
+.interests {
+    background: var(--light-sage);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
+    margin-bottom: 55px;
+}
+
+.section-heading .section-title {
+    margin-bottom: 0;
+}
+
+.section-intro {
+    max-width: 350px;
+    color: var(--muted);
+    padding-bottom: 7px;
+}
+
+.interest-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.interest-card {
+    position: relative;
+    min-height: 320px;
+    padding: 35px 25px;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(56, 91, 73, 0.1);
+    transition: all 0.35s ease;
+}
+
+.interest-card:hover {
+    transform: translateY(-8px);
+    background: var(--white);
+    box-shadow: 0 18px 40px rgba(32, 60, 48, 0.08);
+}
+
+.interest-number {
+    color: #9aa99a;
+    font-family: var(--heading-font);
+    font-size: 1rem;
+}
+
+.interest-icon {
+    color: var(--forest);
+    font-size: 2rem;
+    margin: 28px 0 18px;
+}
+
+.interest-card h3 {
+    color: var(--navy);
+    font-family: var(--heading-font);
+    font-size: 1.65rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 15px;
+}
+
+.interest-card p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+.interest-tag {
+    color: var(--forest);
+    font-size: 0.61rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+}
+
+
+/* =========================
+   7. JOURNAL
+========================= */
+
+.journal {
+    background: var(--warm-white);
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 90px;
+    align-items: center;
+}
+
+.journal-image {
+    height: 470px;
+    overflow: hidden;
+    background: var(--sand);
+}
+
+.journal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s ease;
+}
+
+.journal-image:hover img {
+    transform: scale(1.04);
+}
+
+.journal-copy p:not(.section-label) {
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.outline-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 25px;
+    margin-top: 18px;
+    padding: 13px 20px;
+    border: 1px solid var(--forest);
+    color: var(--forest);
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.outline-button:hover {
+    background: var(--forest);
+    color: var(--white);
+}
+
+.outline-button span {
+    transition: transform 0.3s ease;
+}
+
+.outline-button:hover span {
+    transform: translate(3px, -3px);
+}
+
+
+/* =========================
+   8. LIVESTREAM
+========================= */
+
+.livestream {
+    position: relative;
+    background:
+        linear-gradient(
+            110deg,
+            rgba(22, 56, 67, 0.96),
+            rgba(48, 83, 68, 0.94)
+        );
+    color: var(--white);
+    text-align: center;
+}
+
+.livestream-content {
+    max-width: 760px;
+}
+
+.livestream .section-label {
+    color: #c7d5c3;
+}
+
+.livestream .section-title {
+    color: var(--white);
+}
+
+.livestream p:not(.section-label) {
+    max-width: 590px;
+    margin: 0 auto 30px;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.dark-button {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.8);
+    color: var(--white);
+}
+
+.dark-button:hover {
+    background: var(--white);
+    color: var(--navy);
+}
+
+
+/* =========================
+   9. CONTACT
+========================= */
+
+.contact {
+    background: var(--cream);
+    text-align: center;
+}
+
+.contact-container {
+    max-width: 760px;
+}
+
+.contact-container p:not(.section-label) {
+    max-width: 500px;
+    margin: 0 auto 30px;
+    color: var(--muted);
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--forest);
+    font-family: var(--heading-font);
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    border-bottom: 1px solid var(--sage);
+    padding-bottom: 6px;
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--deep-blue);
+}
+
+.contact-link span {
+    font-family: var(--body-font);
+    font-size: 1rem;
+}
+
+
+/* =========================
+   10. FOOTER
+========================= */
+
+.site-footer {
+    background: #173945;
+    color: var(--white);
+    padding: 45px 0;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.footer-brand {
+    font-size: 1.65rem;
+}
+
+.footer-content p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+}
+
+.footer-copy {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.7rem;
+}
+
+
+/* =========================
+   11. ANIMATIONS
+========================= */
+
+@keyframes heroReveal {
+    from {
+        opacity: 0.65;
+        transform: scale(1.08);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes contentReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   12. TABLET RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .main-nav {
+        gap: 18px;
+    }
+
+    .about-grid,
+    .journal-grid {
+        gap: 50px;
+    }
+
+    .interest-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .interest-card {
+        min-height: 290px;
+    }
+
+    .about-photo-frame {
+        height: 420px;
+    }
+}
+
+
+/* =========================
+   13. MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+
+    .section-padding {
+        padding: 75px 0;
+    }
+
+    .site-header {
+        padding: 20px 0;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .brand {
+        font-size: 1.7rem;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px 17px;
+    }
+
+    .main-nav a {
+        font-size: 0.72rem;
+    }
+
+    .main-nav .nav-contact {
+        padding: 6px 12px;
+    }
+
+    .hero {
+        min-height: 690px;
+        height: 100svh;
+        max-height: 850px;
+    }
+
+    .hero-image {
+        background-position: 57% center;
+    }
+
+    .hero-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(14, 34, 42, 0.65),
+                rgba(14, 34, 42, 0.2)
+            ),
+            linear-gradient(
+                0deg,
+                rgba(14, 34, 42, 0.4),
+                transparent 70%
+            );
+    }
+
+    .hero-content {
+        margin-top: 75px;
+    }
+
+    .hero h1 {
+        font-size: clamp(4.2rem, 17vw, 6.3rem);
+    }
+
+    .hero-description {
+        max-width: 340px;
+        font-size: 0.9rem;
+    }
+
+    .hero-bottom {
+        bottom: 22px;
+        font-size: 0.55rem;
+    }
+
+    .philosophy-heading {
+        font-size: 2.15rem;
+    }
+
+    .handwritten-quote {
+        font-size: clamp(3.5rem, 13vw, 5rem);
+    }
+
+    .about-grid,
+    .journal-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .about-visual {
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+    .about-photo-frame {
+        height: 390px;
+    }
+
+    .section-heading {
+        display: block;
+        margin-bottom: 35px;
+    }
+
+    .section-intro {
+        margin-top: 18px;
+    }
+
+    .interest-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .interest-card {
+        min-height: auto;
+        padding: 28px;
+    }
+
+    .interest-icon {
+        margin: 18px 0 12px;
+    }
+
+    .interest-card p {
+        margin-bottom: 18px;
+    }
+
+    .journal-image {
+        height: 340px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+/* =========================
+   14. SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+
+    .main-nav {
+        gap: 9px 12px;
+    }
+
+    .hero-eyebrow {
+        font-size: 0.6rem;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    .hero-bottom {
+        letter-spacing: 0.1em;
+    }
+
+    .about-photo-frame {
+        height: 310px;
+    }
+
+    .journal-image {
+        height: 280px;
+    }
+}
+
+
+/* =========================
+   15. ACCESSIBILITY
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

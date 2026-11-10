@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Stories, discoveries, recipes, and reflections from BeyondMe.">
+
+    <title>Journal | BeyondMe</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/blog.css">
+
+    <style>
+        .story-card[hidden] {
+            display: none !important;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-dialog {
+            width: min(760px, calc(100% - 32px));
+            max-height: 85vh;
+            overflow-y: auto;
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            color: #263b38;
+            background: #faf9f5;
+        }
+
+        .story-dialog::backdrop {
+            background: rgba(12, 28, 27, 0.75);
+            backdrop-filter: blur(4px);
+        }
+
+        .dialog-content {
+            padding: 36px;
+        }
+
+        .dialog-close {
+            display: block;
+            margin-left: auto;
+            border: 0;
+            background: transparent;
+            color: #263b38;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .dialog-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .dialog-category {
+            color: #648575;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .dialog-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(32px, 5vw, 48px);
+            line-height: 1.1;
+            margin: 12px 0;
+        }
+
+        .dialog-date {
+            color: #7b8983;
+            font-size: 13px;
+        }
+
+        .dialog-body {
+            font-size: 16px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .journal-status {
+            text-align: center;
+            padding: 35px 15px;
+            color: #66766e;
+        }
+
+        .journal-error {
+            color: #a33d35;
+        }
+
+        @media (max-width: 600px) {
+            .dialog-content {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="blog-header">
+    <div class="nav-container">
+
+        <a href="/" class="brand" aria-label="BeyondMe home">
+            Beyond<span>Me</span><span class="brand-dot">.</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/">Home</a>
+            <a href="/#about">About</a>
+            <a href="/#interests">Interests</a>
+            <a href="/blog.html" class="active">Journal</a>
+            <a href="/livestream.html">Live</a>
+            <a href="/#contact" class="nav-contact">Get in touch</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+    <!-- JOURNAL HERO -->
+    <section class="blog-hero">
+
+        <div class="blog-hero-image"></div>
+        <div class="blog-hero-overlay"></div>
+
+        <div class="blog-hero-content">
+
+            <p class="eyebrow">
+                A COLLECTION OF STORIES & EXPERIENCES
+            </p>
+
+            <h1>
+                Pages from<br>my journey<span>.</span>
+            </h1>
+
+            <p class="hero-description">
+                Places I've seen, flavors I've discovered,
+                thoughts I've collected, and moments worth remembering.
+            </p>
+
+            <a href="#stories" class="hero-button">
+                Explore the journal <span>↓</span>
+            </a>
+
+        </div>
+
+        <div class="hero-bottom">
+            <span>TRAVEL · COOKING · REFLECTIONS</span>
+            <span>MY PERSONAL JOURNAL</span>
+        </div>
+
+    </section>
+
+
+    <!-- INTRODUCTION -->
+    <section class="journal-intro">
+
+        <div class="section-container intro-content">
+
+            <p class="section-label">MORE THAN JUST A MEMORY</p>
+
+            <h2>
+                Every experience has a story.<br>
+                Every story leaves something behind.
+            </h2>
+
+            <p>
+                This is where I keep the little pieces of my journey:
+                the places that inspire me, the meals that bring joy,
+                and the thoughts that help me grow.
+            </p>
+
+            <span class="intro-script">
+                A little more about life...
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURED STORY -->
+    <section class="featured-section">
+
+        <div class="section-container">
+
+            <div class="section-label">
+                A MOMENT TO REMEMBER
+            </div>
+
+            <article class="featured-story">
+
+                <div class="featured-image">
+                    <img
+                        src="/images/sunset.jpg"
+                        alt="Sunset over the ocean"
+                    >
+                </div>
+
+                <div class="featured-copy">
+
+                    <span class="story-category">
+                        TRAVEL & DISCOVERY
+                    </span>
+
+                    <p class="story-date">
+                        A NOTE FROM MY JOURNEY
+                    </p>
+
+                    <h2>
+                        Finding beauty in the journey,
+                        not just the destination.
+                    </h2>
+
+                    <p>
+                        Sometimes the most meaningful part of traveling
+                        is not reaching a place. It is slowing down,
+                        noticing the details, and allowing a new
+                        experience to change the way we see the world.
+                    </p>
+
+                    <a href="#stories" class="text-link">
+                        Explore more stories <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- STORY COLLECTION -->
+    <section class="stories-section" id="stories">
+
+        <div class="section-container">
+
+            <div class="stories-heading">
+
+                <div>
+                    <p class="section-label">THE JOURNAL</p>
+                    <h2 class="section-title">
+                        Stories along the way.
+                    </h2>
+                </div>
+
+                <p class="stories-intro">
+                    A growing collection of experiences,
+                    discoveries, and everyday inspiration.
+                </p>
+
+            </div>
+
+
+            <!-- CATEGORY FILTERS -->
+            <div class="category-filters" aria-label="Filter stories">
+
+                <button
+                    class="filter-button active"
+                    data-filter="all"
+                    aria-pressed="true"
+                >
+                    All stories
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-filter="travel"
+                    aria-pressed="false"
+                >
+                    Travel
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-filter="cooking"
+                    aria-pressed="false"
+                >
+                    Cooking
+                </button>
+
+                <button
+                    class="filter-button"
+                    data-filter="reflections"
+                    aria-pressed="false"
+                >
+                    Reflections
+                </button>
+
+            </div>
+
+
+            <!-- STORIES ARE LOADED FROM MONGODB THROUGH THE API -->
+            <div class="story-grid" id="story-grid">
+
+                <p class="journal-status" id="journal-loading">
+                    Gathering stories from my journal...
+                </p>
+
+            </div>
+
+            <p class="empty-message" id="empty-message" hidden>
+                No stories in this category yet.
+            </p>
+
+            <p
+                class="journal-status journal-error"
+                id="journal-error"
+                hidden
+            >
+                Unable to load journal stories. Please try again later.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- STORY READING DIALOG -->
+    <dialog class="story-dialog" id="story-dialog">
+
+        <div class="dialog-content">
+
+            <button
+                class="dialog-close"
+                id="dialog-close"
+                type="button"
+                aria-label="Close story"
+            >
+                ×
+            </button>
+
+            <p class="dialog-category" id="dialog-category"></p>
+
+            <h2 class="dialog-title" id="dialog-title"></h2>
+
+            <p class="dialog-date" id="dialog-date"></p>
+
+            <img
+                class="dialog-image"
+                id="dialog-image"
+                alt=""
+                hidden
+            >
+
+            <p class="dialog-body" id="dialog-body"></p>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- STORY PREVIEW -->
+    <section class="story-preview">
+
+        <div class="section-container preview-content">
+
+            <p class="section-label">
+                A THOUGHT TO TAKE WITH YOU
+            </p>
+
+            <h2>
+                "The goal is not to become someone else.
+                It is to discover how much more I can become myself."
+            </h2>
+
+            <p class="preview-script">
+                One day, one experience, one lesson at a time.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CLOSING -->
+    <section class="journal-closing">
+
+        <div class="section-container closing-content">
+
+            <p class="section-label">
+                THANK YOU FOR BEING HERE
+            </p>
+
+            <h2>
+                There is always another story to discover.
+            </h2>
+
+            <p>
+                This journal will continue to grow as I explore,
+                create, learn, and experience life.
+            </p>
+
+            <a href="/" class="outline-button">
+                Back to my page <span>↗</span>
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+
+    <div class="section-container footer-content">
+
+        <a href="/" class="brand footer-brand">
+            Beyond<span>Me</span><span class="brand-dot">.</span>
+        </a>
+
+        <p>
+            A personal journey of curiosity, experiences, and growth.
+        </p>
+
+        <span class="footer-copy">
+            © <span id="current-year"></span> BeyondMe.
+            Made with intention.
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script>
+    // ---------------------------------------------------------
+    // BASIC PAGE ELEMENTS
+    // ---------------------------------------------------------
+
+    document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+
+    const storyGrid = document.getElementById("story-grid");
+    const loadingMessage = document.getElementById("journal-loading");
+    const emptyMessage = document.getElementById("empty-message");
+    const errorMessage = document.getElementById("journal-error");
+
+    const filterButtons = document.querySelectorAll(".filter-button");
+
+    const storyDialog = document.getElementById("story-dialog");
+    const dialogClose = document.getElementById("dialog-close");
+
+    let allPosts = [];
+    let selectedCategory = "all";
+
+
+    // ---------------------------------------------------------
+    // CATEGORY HELPERS
+    // ---------------------------------------------------------
+
+    function normalizeCategory(category) {
+        return String(category || "").trim().toLowerCase();
+    }
+
+    function formatCategory(category) {
+        if (category === "Travel") return "TRAVEL";
+        if (category === "Cooking") return "COOKING";
+        if (category === "Reflections") return "REFLECTIONS";
+
+        return String(category || "JOURNAL").toUpperCase();
+    }
+
+    function formatDate(dateValue) {
+        if (!dateValue) return "A NOTE FROM MY JOURNEY";
+
+        const date = new Date(dateValue);
+
+        if (Number.isNaN(date.getTime())) {
+            return "A NOTE FROM MY JOURNEY";
+        }
+
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+    }
+
+
+    // ---------------------------------------------------------
+    // CREATE A STORY CARD SAFELY
+    // ---------------------------------------------------------
+
+    function createStoryCard(post) {
+        const article = document.createElement("article");
+        article.className = "story-card";
+        article.dataset.category = normalizeCategory(post.category);
+
+        const imageLink = document.createElement("a");
+        imageLink.href = "#";
+        imageLink.className = "story-image";
+        imageLink.setAttribute("aria-label", `Read ${post.title}`);
+
+        const image = document.createElement("img");
+        image.src = post.imageUrl || "/images/sunset.jpg";
+        image.alt = post.title || "Journal story";
+        image.loading = "lazy";
+
+        image.onerror = () => {
+            image.onerror = null;
+            image.src = "/images/sunset.jpg";
+        };
+
+        const imageLabel = document.createElement("span");
+        imageLabel.className = "image-label";
+        imageLabel.textContent = formatCategory(post.category);
+
+        imageLink.append(image, imageLabel);
+
+        const content = document.createElement("div");
+        content.className = "story-card-content";
+
+        const date = document.createElement("p");
+        date.className = "story-date";
+        date.textContent = formatDate(post.publishedAt || post.createdAt);
+
+        const title = document.createElement("h3");
+        title.textContent = post.title || "Untitled story";
+
+        const excerpt = document.createElement("p");
+        excerpt.textContent = post.excerpt || "";
+
+        const readLink = document.createElement("a");
+        readLink.href = "#";
+        readLink.className = "read-link";
+        readLink.textContent = "Read the story →";
+
+        const openStory = (event) => {
+            event.preventDefault();
+            showStory(post);
+        };
+
+        imageLink.addEventListener("click", openStory);
+        readLink.addEventListener("click", openStory);
+
+        content.append(date, title, excerpt, readLink);
+        article.append(imageLink, content);
+
+        return article;
+    }
+
+
+    // ---------------------------------------------------------
+    // DISPLAY ALL STORIES
+    // ---------------------------------------------------------
+
+    function renderStories() {
+        storyGrid.replaceChildren();
+
+        const filteredPosts = allPosts.filter(post => {
+            return selectedCategory === "all" ||
+                normalizeCategory(post.category) === selectedCategory;
+        });
+
+        filteredPosts.forEach(post => {
+            storyGrid.appendChild(createStoryCard(post));
+        });
+
+        emptyMessage.hidden = filteredPosts.length !== 0;
+    }
+
+
+    // ---------------------------------------------------------
+    // LOAD PUBLISHED STORIES FROM EXPRESS API
+    // ---------------------------------------------------------
+
+    async function loadStories() {
+        loadingMessage.hidden = false;
+        errorMessage.hidden = true;
+        emptyMessage.hidden = true;
+
+        try {
+            const response = await fetch("/api/posts");
+
+            if (!response.ok) {
+                throw new Error(`Request failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (!data.success || !Array.isArray(data.posts)) {
+                throw new Error("Unexpected API response");
+            }
+
+            allPosts = data.posts;
+
+            loadingMessage.hidden = true;
+
+            renderStories();
+
+        } catch (error) {
+            console.error("Unable to load journal stories:", error);
+
+            loadingMessage.hidden = true;
+            errorMessage.hidden = false;
+        }
+    }
+
+
+    // ---------------------------------------------------------
+    // CATEGORY FILTERS
+    // ---------------------------------------------------------
+
+    filterButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            selectedCategory = button.dataset.filter;
+
+            filterButtons.forEach(item => {
+                const isActive = item === button;
+
+                item.classList.toggle("active", isActive);
+                item.setAttribute("aria-pressed", String(isActive));
+            });
+
+            renderStories();
+
+        });
+
+    });
+
+
+    // ---------------------------------------------------------
+    // OPEN A FULL STORY
+    // ---------------------------------------------------------
+
+    function showStory(post) {
+        document.getElementById("dialog-category").textContent =
+            formatCategory(post.category);
+
+        document.getElementById("dialog-title").textContent =
+            post.title || "Untitled story";
+
+        document.getElementById("dialog-date").textContent =
+            formatDate(post.publishedAt || post.createdAt);
+
+        document.getElementById("dialog-body").textContent =
+            post.content || post.excerpt || "";
+
+        const dialogImage = document.getElementById("dialog-image");
+
+        if (post.imageUrl) {
+            dialogImage.src = post.imageUrl;
+            dialogImage.alt = post.title || "Journal story";
+            dialogImage.hidden = false;
+
+            dialogImage.onerror = () => {
+                dialogImage.hidden = true;
+            };
+        } else {
+            dialogImage.hidden = true;
+        }
+
+        storyDialog.showModal();
+    }
+
+
+    // ---------------------------------------------------------
+    // CLOSE STORY DIALOG
+    // ---------------------------------------------------------
+
+    dialogClose.addEventListener("click", () => {
+        storyDialog.close();
+    });
+
+    storyDialog.addEventListener("click", event => {
+        if (event.target === storyDialog) {
+            storyDialog.close();
+        }
+    });
+
+
+    // ---------------------------------------------------------
+    // INITIALIZE JOURNAL
+    // ---------------------------------------------------------
+
+    loadStories();
+
+</script>
+
+</body>
+</html>
+
+
+
+        

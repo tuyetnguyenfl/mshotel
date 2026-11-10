@@ -1,49 +1,633 @@
 
-//fixing port
+// BeyondMe + original HOTEL shop
+// Express API, MongoDB, administrator sessions, blog management,
+// and secure image uploads.
+
 import express from 'express';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
-import { connectMongo } from './mongo.js';
-import dotenv from 'dotenv'; 
+import { connectMongo, client } from './mongo.js';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import dotenv from 'dotenv';
+import multer from 'multer';
+import { mkdirSync } from 'fs';
+import { randomUUID } from 'crypto';
+
+// -----------------------------------------------------------------------------
+// PATHS AND ENVIRONMENT
+// -----------------------------------------------------------------------------
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: join(__dirname, '../.env') });
+dotenv.config({
+  path: join(__dirname, '../.env')
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// -----------------------------------------------------------------------------
+// IMAGE UPLOAD CONFIGURATION
+// -----------------------------------------------------------------------------
+
+const uploadDirectory = join(__dirname, '../public/uploads');
+
+mkdirSync(uploadDirectory, { recursive: true });
+
+const allowedImageTypes = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp'
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, uploadDirectory);
+  },
+
+  filename: (req, file, callback) => {
+    const extension = allowedImageTypes[file.mimetype];
+
+    callback(null, `${randomUUID()}${extension}`);
+  }
+});
+
+const imageUpload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+    files: 1
+  },
+  fileFilter: (req, file, callback) => {
+    if (!Object.hasOwn(allowedImageTypes, file.mimetype)) {
+      return callback(
+        new Error('Only JPG, PNG, and WebP images are allowed.')
+      );
+    }
+
+    callback(null, true);
+  }
+});
+
+// -----------------------------------------------------------------------------
+// ADMINISTRATOR SESSION
+// -----------------------------------------------------------------------------
+
+if (!process.env.SESSION_SECRET) {
+  throw new Error('SESSION_SECRET is missing from the root .env file.');
+}
+
+app.use(session({
+  name: 'beyondme.sid',
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+
+  store: MongoStore.create({
+    client,
+    dbName: 'mshotel',
+    collectionName: 'sessions',
+    ttl: 8 * 60 * 60
+  }),
+
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 8 * 60 * 60 * 1000
+  }
+}));
+
 app.use(express.json({ limit: '100kb' }));
+
+// Serve static website files and uploaded images.
 app.use(express.static(join(__dirname, '../public')));
+
+// -----------------------------------------------------------------------------
+// DATABASE
+// -----------------------------------------------------------------------------
 
 let db;
 let collection;
 
-// Serve the customer-facing shop
+// -----------------------------------------------------------------------------
+// ADMIN AUTHORIZATION
+// -----------------------------------------------------------------------------
+
+function requireAdmin(req, res, next) {
+  if (req.session?.isAdmin) {
+    return next();
+  }
+
+  return res.status(401).json({
+    success: false,
+    error: 'Administrator login required'
+  });
+}
+
+// -----------------------------------------------------------------------------
+// WEBSITE PAGES
+// -----------------------------------------------------------------------------
+
 app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, '../public', 'hotel.html'));
+  res.sendFile(join(__dirname, '../public/index.html'));
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
+app.get('/shop', (req, res) => {
+  res.sendFile(join(__dirname, '../public/hotel.html'));
+});
+
+// -----------------------------------------------------------------------------
+// ADMIN LOGIN
+// -----------------------------------------------------------------------------
+
+app.post('/api/admin/login', async (req, res, next) => {
+  try {
+    const { username, password } = req.body ?? {};
+
+    if (
+      typeof username !== 'string' ||
+      typeof password !== 'string' ||
+      !username.trim() ||
+      !password
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Username and password are required'
+      });
+    }
+
+    const validUsername = username === process.env.ADMIN_USERNAME;
+
+    const validPassword = process.env.ADMIN_PASSWORD_HASH
+      ? await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH)
+      : false;
+
+    if (!validUsername || !validPassword) {
+      return res.status(401).json({
+        success: false,
+        error: 'Incorrect username or password'
+      });
+    }
+
+    await new Promise((resolve, reject) => {
+      req.session.regenerate(error => {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+
+    req.session.isAdmin = true;
+    req.session.adminUsername = username;
+
+    await new Promise((resolve, reject) => {
+      req.session.save(error => {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+
+    res.json({
+      success: true,
+      message: 'Administrator login successful'
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get('/api/admin/me', requireAdmin, (req, res) => {
   res.json({
     success: true,
-    message: 'HOTEL API is running'
+    username: req.session.adminUsername
   });
 });
 
-// Preserve your original test endpoint
+app.post('/api/admin/logout', requireAdmin, (req, res, next) => {
+  req.session.destroy(error => {
+    if (error) return next(error);
+
+    res.clearCookie('beyondme.sid', {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production'
+    });
+
+    res.json({
+      success: true,
+      message: 'Logged out successfully'
+    });
+  });
+});
+
+// -----------------------------------------------------------------------------
+// BLOG IMAGE UPLOAD
+// -----------------------------------------------------------------------------
+
+app.post('/api/admin/uploads', requireAdmin, (req, res, next) => {
+  imageUpload.single('image')(req, res, error => {
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        error: error.message || 'Image upload failed.'
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please select an image.'
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      imageUrl: `/uploads/${req.file.filename}`,
+      message: 'Image uploaded successfully.'
+    });
+  });
+});
+
+// -----------------------------------------------------------------------------
+// PUBLIC BLOG API
+// -----------------------------------------------------------------------------
+
+// Return published stories only.
+app.get('/api/posts', async (req, res, next) => {
+  try {
+    const { category } = req.query;
+    const filter = { status: 'published' };
+
+    if (category && category !== 'all') {
+      filter.category = String(category);
+    }
+
+    const posts = await db.collection('posts')
+      .find(filter)
+      .sort({ publishedAt: -1, createdAt: -1 })
+      .toArray();
+
+    res.json({
+      success: true,
+      posts
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Return one published story.
+app.get('/api/posts/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid post ID'
+      });
+    }
+
+    const post = await db.collection('posts').findOne({
+      _id: new ObjectId(id),
+      status: 'published'
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        error: 'Published post not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      post
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// -----------------------------------------------------------------------------
+// ADMIN BLOG API
+// -----------------------------------------------------------------------------
+
+// Return all stories, including drafts.
+app.get('/api/admin/posts', requireAdmin, async (req, res, next) => {
+  try {
+    const posts = await db.collection('posts')
+      .find({})
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .toArray();
+
+    res.json({
+      success: true,
+      posts
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Create a story.
+app.post('/api/admin/posts', requireAdmin, async (req, res, next) => {
+  try {
+    const {
+      title,
+      excerpt,
+      content,
+      category,
+      imageUrl,
+      status
+    } = req.body ?? {};
+
+    const allowedCategories = ['Travel', 'Cooking', 'Reflections'];
+    const allowedStatuses = ['draft', 'published'];
+
+    if (
+      typeof title !== 'string' ||
+      !title.trim() ||
+      typeof content !== 'string' ||
+      !content.trim()
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'A title and content are required'
+      });
+    }
+
+    if (excerpt !== undefined && typeof excerpt !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Excerpt must be text'
+      });
+    }
+
+    if (!allowedCategories.includes(category)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid blog category'
+      });
+    }
+
+    const postStatus = status || 'draft';
+
+    if (!allowedStatuses.includes(postStatus)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Status must be draft or published'
+      });
+    }
+
+    if (imageUrl !== undefined && typeof imageUrl !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Image URL must be text'
+      });
+    }
+
+    const now = new Date();
+
+    const newPost = {
+      title: title.trim().slice(0, 150),
+      excerpt: (excerpt || '').trim().slice(0, 300),
+      content: content.trim(),
+      category,
+      imageUrl: (imageUrl || '').trim(),
+      status: postStatus,
+      createdAt: now,
+      updatedAt: now,
+      publishedAt: postStatus === 'published' ? now : null
+    };
+
+    const result = await db.collection('posts').insertOne(newPost);
+
+    const createdPost = await db.collection('posts').findOne({
+      _id: result.insertedId
+    });
+
+    res.status(201).json({
+      success: true,
+      post: createdPost
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update a story.
+app.patch('/api/admin/posts/:id', requireAdmin, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid post ID'
+      });
+    }
+
+    const allowedFields = [
+      'title',
+      'excerpt',
+      'content',
+      'category',
+      'imageUrl',
+      'status'
+    ];
+
+    const body = req.body ?? {};
+    const changes = {};
+
+    for (const field of allowedFields) {
+      if (Object.hasOwn(body, field)) {
+        changes[field] = body[field];
+      }
+    }
+
+    if (Object.keys(changes).length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No valid fields provided'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'title') &&
+      (typeof changes.title !== 'string' || !changes.title.trim())
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Title cannot be empty'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'content') &&
+      (typeof changes.content !== 'string' || !changes.content.trim())
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Content cannot be empty'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'excerpt') &&
+      typeof changes.excerpt !== 'string'
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Excerpt must be text'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'category') &&
+      !['Travel', 'Cooking', 'Reflections'].includes(changes.category)
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid blog category'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'status') &&
+      !['draft', 'published'].includes(changes.status)
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid post status'
+      });
+    }
+
+    if (
+      Object.hasOwn(changes, 'imageUrl') &&
+      typeof changes.imageUrl !== 'string'
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Image URL must be text'
+      });
+    }
+
+    if (Object.hasOwn(changes, 'title')) {
+      changes.title = changes.title.trim().slice(0, 150);
+    }
+
+    if (Object.hasOwn(changes, 'excerpt')) {
+      changes.excerpt = changes.excerpt.trim().slice(0, 300);
+    }
+
+    if (Object.hasOwn(changes, 'content')) {
+      changes.content = changes.content.trim();
+    }
+
+    if (Object.hasOwn(changes, 'imageUrl')) {
+      changes.imageUrl = changes.imageUrl.trim();
+    }
+
+    const posts = db.collection('posts');
+
+    const existingPost = await posts.findOne({
+      _id: new ObjectId(id)
+    });
+
+    if (!existingPost) {
+      return res.status(404).json({
+        success: false,
+        error: 'Post not found'
+      });
+    }
+
+    changes.updatedAt = new Date();
+
+    if (
+      changes.status === 'published' &&
+      existingPost.status !== 'published'
+    ) {
+      changes.publishedAt = new Date();
+    }
+
+    await posts.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: changes }
+    );
+
+    const updatedPost = await posts.findOne({
+      _id: new ObjectId(id)
+    });
+
+    res.json({
+      success: true,
+      post: updatedPost
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Delete a story.
+app.delete('/api/admin/posts/:id', requireAdmin, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid post ID'
+      });
+    }
+
+    const result = await db.collection('posts').deleteOne({
+      _id: new ObjectId(id)
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Post not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Post deleted successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// -----------------------------------------------------------------------------
+// HEALTH CHECK
+// -----------------------------------------------------------------------------
+
+app.get('/api/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'BeyondMe API is running'
+  });
+});
+
 app.get('/api/hello', (req, res) => {
   res.json({
-    message: 'Hello from HOTEL',
+    message: 'Hello from the HOTEL API',
     success: true
   });
 });
 
-// GET all items, with optional category and search filters
+// -----------------------------------------------------------------------------
+// ORIGINAL HOTEL SHOP API
+// -----------------------------------------------------------------------------
+
+// Get all shop items, with optional filters.
 app.get('/api/items', async (req, res, next) => {
   try {
     const filter = {};
@@ -54,7 +638,6 @@ app.get('/api/items', async (req, res, next) => {
     }
 
     if (search) {
-      // Escape special regex characters in the search input
       const safeSearch = String(search).replace(
         /[.*+?^${}()|[\]\\]/g,
         '\\$&'
@@ -76,13 +659,15 @@ app.get('/api/items', async (req, res, next) => {
   }
 });
 
-// GET one item by MongoDB ID
+// Get one shop item.
 app.get('/api/items/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid item ID' });
+      return res.status(400).json({
+        error: 'Invalid item ID'
+      });
     }
 
     const item = await collection.findOne({
@@ -90,7 +675,9 @@ app.get('/api/items/:id', async (req, res, next) => {
     });
 
     if (!item) {
-      return res.status(404).json({ error: 'Item not found' });
+      return res.status(404).json({
+        error: 'Item not found'
+      });
     }
 
     res.json(item);
@@ -99,10 +686,16 @@ app.get('/api/items/:id', async (req, res, next) => {
   }
 });
 
-// POST: create an item
+// Create a shop item.
 app.post('/api/items', async (req, res, next) => {
   try {
-    const { name, category, description, price, imageUrl } = req.body;
+    const {
+      name,
+      category,
+      description,
+      price,
+      imageUrl
+    } = req.body ?? {};
 
     if (typeof name !== 'string' || !name.trim()) {
       return res.status(400).json({
@@ -110,8 +703,10 @@ app.post('/api/items', async (req, res, next) => {
       });
     }
 
-    if (price !== undefined &&
-        (!Number.isFinite(price) || price < 0)) {
+    if (
+      price !== undefined &&
+      (!Number.isFinite(price) || price < 0)
+    ) {
       return res.status(400).json({
         error: 'Price must be a non-negative number'
       });
@@ -138,13 +733,15 @@ app.post('/api/items', async (req, res, next) => {
   }
 });
 
-// PATCH: update an existing item
+// Update a shop item.
 app.patch('/api/items/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid item ID' });
+      return res.status(400).json({
+        error: 'Invalid item ID'
+      });
     }
 
     const allowedFields = [
@@ -155,11 +752,12 @@ app.patch('/api/items/:id', async (req, res, next) => {
       'imageUrl'
     ];
 
+    const body = req.body ?? {};
     const changes = {};
 
     for (const field of allowedFields) {
-      if (Object.hasOwn(req.body, field)) {
-        changes[field] = req.body[field];
+      if (Object.hasOwn(body, field)) {
+        changes[field] = body[field];
       }
     }
 
@@ -200,6 +798,10 @@ app.patch('/api/items/:id', async (req, res, next) => {
           error: `${field} must be a string`
         });
       }
+
+      if (Object.hasOwn(changes, field)) {
+        changes[field] = changes[field].trim();
+      }
     }
 
     const result = await collection.updateOne(
@@ -208,7 +810,9 @@ app.patch('/api/items/:id', async (req, res, next) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).json({ error: 'Item not found' });
+      return res.status(404).json({
+        error: 'Item not found'
+      });
     }
 
     const updatedItem = await collection.findOne({
@@ -221,13 +825,15 @@ app.patch('/api/items/:id', async (req, res, next) => {
   }
 });
 
-// DELETE: remove an item
+// Delete a shop item.
 app.delete('/api/items/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid item ID' });
+      return res.status(400).json({
+        error: 'Invalid item ID'
+      });
     }
 
     const result = await collection.deleteOne({
@@ -235,7 +841,9 @@ app.delete('/api/items/:id', async (req, res, next) => {
     });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'Item not found' });
+      return res.status(404).json({
+        error: 'Item not found'
+      });
     }
 
     res.json({
@@ -247,11 +855,13 @@ app.delete('/api/items/:id', async (req, res, next) => {
   }
 });
 
-// Preserve account creation from your existing project.
-// This is not a complete authentication system.
+// -----------------------------------------------------------------------------
+// USER ACCOUNT CREATION
+// -----------------------------------------------------------------------------
+
 app.post('/api/create-account', async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body ?? {};
 
     if (
       typeof username !== 'string' || !username.trim() ||
@@ -299,7 +909,10 @@ app.post('/api/create-account', async (req, res, next) => {
   }
 });
 
-// Development-only routes: never enable these in production.
+// -----------------------------------------------------------------------------
+// DEVELOPMENT-ONLY SHOP ROUTES
+// -----------------------------------------------------------------------------
+
 if (process.env.NODE_ENV !== 'production') {
   app.post('/api/dev/seed', async (req, res, next) => {
     try {
@@ -367,7 +980,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// JSON error handling
+// -----------------------------------------------------------------------------
+// ERROR HANDLING
+// -----------------------------------------------------------------------------
+
 app.use((error, req, res, next) => {
   console.error(error);
 
@@ -375,12 +991,23 @@ app.use((error, req, res, next) => {
     return next(error);
   }
 
+  if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid JSON request body'
+    });
+  }
+
   res.status(500).json({
+    success: false,
     error: 'Internal server error'
   });
 });
 
-// Connect to MongoDB before accepting requests
+// -----------------------------------------------------------------------------
+// START SERVER AFTER MONGODB CONNECTION
+// -----------------------------------------------------------------------------
+
 async function startServer() {
   try {
     const connection = await connectMongo();
@@ -389,10 +1016,12 @@ async function startServer() {
     collection = connection.collection;
 
     app.listen(PORT, () => {
-      console.log(`HOTEL is running at http://localhost:${PORT}`);
+      console.log(
+        `BeyondMe and HOTEL API are running at http://localhost:${PORT}`
+      );
     });
   } catch (error) {
-    console.error('Failed to start HOTEL:', error);
+    console.error('Failed to start the application:', error);
     process.exit(1);
   }
 }

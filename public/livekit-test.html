@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BeyondMe | LiveKit Test</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #f3f6f4;
+      color: #183b35;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: #64756e;
+      margin-bottom: 30px;
+    }
+
+    .panel {
+      background: white;
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px #183b3510;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 20px;
+      background: #176b57;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    button.secondary {
+      background: #64756e;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    video {
+      width: 100%;
+      min-height: 220px;
+      background: #172c27;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .video-label {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    #status {
+      padding: 14px;
+      background: #edf5f0;
+      border-radius: 8px;
+      color: #176b57;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 24px 14px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>BeyondMe Live Streaming Test</h1>
+
+    <p class="description">
+      Testing browser camera broadcasting and live video viewing
+      through LiveKit Cloud.
+    </p>
+
+    <section class="panel">
+      <h2>1. Broadcaster</h2>
+
+      <p>
+        Use this section to start broadcasting from your camera
+        and microphone.
+      </p>
+
+      <div class="controls">
+        <button id="startBroadcast">
+          Start Broadcasting
+        </button>
+
+        <button id="stopBroadcast" class="secondary" disabled>
+          Stop Broadcasting
+        </button>
+      </div>
+
+      <div class="video-grid">
+        <div>
+          <p class="video-label">Your Camera</p>
+          <video id="localVideo" autoplay playsinline muted></video>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Viewer</h2>
+
+      <p>
+        Use this section from another browser or device to watch
+        the broadcast.
+      </p>
+
+      <div class="controls">
+        <button id="joinViewer">
+          Join as Viewer
+        </button>
+
+        <button id="leaveViewer" class="secondary" disabled>
+          Leave Broadcast
+        </button>
+      </div>
+
+      <div class="video-grid" id="remoteVideos"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Connection Status</h2>
+      <div id="status">Waiting for your action...</div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/livekit-test.bundle.js"></script>
+</body>
+</html>

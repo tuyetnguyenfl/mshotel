@@ -5,700 +5,632 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Stories, discoveries, recipes, and reflections from BeyondMe.">
+    <meta name="description" content="BeyondMe — a personal space for stories, creativity, experiences, and continuous growth.">
 
-    <title>Journal | BeyondMe</title>
+    <title>BeyondMe | Be More, Become More</title>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Original Tangerine handwritten font -->
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/blog.css">
+    <!-- Main Homepage Stylesheet -->
+    <link rel="stylesheet" href="/css/personal.css">
 
     <style>
-        .story-card[hidden] {
-            display: none !important;
+
+        /* =========================
+           ABOUT SECTION
+        ========================== */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
         }
 
-        .story-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .story-dialog {
-            width: min(760px, calc(100% - 32px));
-            max-height: 85vh;
-            overflow-y: auto;
-            border: none;
-            border-radius: 12px;
-            padding: 0;
-            color: #263b38;
-            background: #faf9f5;
-        }
-
-        .story-dialog::backdrop {
-            background: rgba(12, 28, 27, 0.75);
-            backdrop-filter: blur(4px);
-        }
-
-        .dialog-content {
-            padding: 36px;
-        }
-
-        .dialog-close {
-            display: block;
-            margin-left: auto;
-            border: 0;
-            background: transparent;
-            color: #263b38;
-            font-size: 28px;
-            cursor: pointer;
-        }
-
-        .dialog-image {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin: 16px 0;
-        }
-
-        .dialog-category {
-            color: #648575;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .dialog-title {
-            font-family: "Cormorant Garamond", serif;
-            font-size: clamp(32px, 5vw, 48px);
-            line-height: 1.1;
-            margin: 12px 0;
-        }
-
-        .dialog-date {
-            color: #7b8983;
-            font-size: 13px;
-        }
-
-        .dialog-body {
-            font-size: 16px;
+        .about-copy p {
+            color: var(--muted);
             line-height: 1.9;
-            white-space: pre-wrap;
-            overflow-wrap: anywhere;
+            margin-bottom: 20px;
         }
 
-        .journal-status {
+        .about-copy .section-title {
+            margin-bottom: 25px;
+        }
+
+        .about-copy .outline-button {
+            margin-top: 15px;
+        }
+
+
+        /* =========================
+           PERSONAL PHILOSOPHY
+        ========================== */
+
+        .philosophy-container {
+            width: min(90%, 900px);
+            margin: 0 auto;
             text-align: center;
-            padding: 35px 15px;
-            color: #66766e;
         }
 
-        .journal-error {
-            color: #a33d35;
+        .philosophy-container .section-label,
+        .philosophy-heading,
+        .handwritten-quote,
+        .philosophy-note {
+            text-align: center;
         }
 
-        @media (max-width: 600px) {
-            .dialog-content {
-                padding: 22px;
+        .philosophy-heading {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .handwritten-quote {
+            font-family: "Tangerine", cursive;
+            font-weight: 400;
+            font-style: normal;
+            font-size: clamp(3.8rem, 8vw, 6.5rem);
+            line-height: 1.1;
+            letter-spacing: 0;
+            color: var(--forest);
+            width: 100%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .handwritten-quote p {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .handwritten-quote p:nth-child(2) {
+            font-size: 1em;
+        }
+
+        .philosophy-note {
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+
+        /* =========================
+           INTERESTS
+        ========================== */
+
+        .interest-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .interest-tag {
+            margin-top: auto;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================== */
+
+        .contact-link {
+            display: inline-block;
+            margin-top: 25px;
+        }
+
+
+        /* =========================
+           RESPONSIVE LAYOUT
+        ========================== */
+
+        @media (max-width: 1000px) {
+
+            .about-grid {
+                gap: 50px;
             }
+
         }
+
+        @media (max-width: 700px) {
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-visual {
+                max-width: 520px;
+                margin: 0 auto;
+            }
+
+            .handwritten-quote {
+                font-size: clamp(3.5rem, 13vw, 5rem);
+                margin: 30px auto;
+            }
+
+            .philosophy-heading {
+                font-size: 2.15rem;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+
+            .handwritten-quote {
+                font-size: 3.5rem;
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
-<header class="blog-header">
-    <div class="nav-container">
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-        <a href="/" class="brand" aria-label="BeyondMe home">
-            Beyond<span>Me</span><span class="brand-dot">.</span>
-        </a>
+    <header class="site-header">
 
-        <nav class="main-nav" aria-label="Main navigation">
-            <a href="/">Home</a>
-            <a href="/#about">About</a>
-            <a href="/#interests">Interests</a>
-            <a href="/blog.html" class="active">Journal</a>
-            <a href="/livestream.html">Live</a>
-            <a href="/#contact" class="nav-contact">Get in touch</a>
-        </nav>
+        <div class="nav-container">
 
-    </div>
-</header>
-
-
-<main>
-
-    <!-- JOURNAL HERO -->
-    <section class="blog-hero">
-
-        <div class="blog-hero-image"></div>
-        <div class="blog-hero-overlay"></div>
-
-        <div class="blog-hero-content">
-
-            <p class="eyebrow">
-                A COLLECTION OF STORIES & EXPERIENCES
-            </p>
-
-            <h1>
-                Pages from<br>my journey<span>.</span>
-            </h1>
-
-            <p class="hero-description">
-                Places I've seen, flavors I've discovered,
-                thoughts I've collected, and moments worth remembering.
-            </p>
-
-            <a href="#stories" class="hero-button">
-                Explore the journal <span>↓</span>
+            <a href="#home" class="brand">
+                Beyond<span class="brand-dot">Me.</span>
             </a>
 
-        </div>
+            <nav class="main-nav" aria-label="Main navigation">
 
-        <div class="hero-bottom">
-            <span>TRAVEL · COOKING · REFLECTIONS</span>
-            <span>MY PERSONAL JOURNAL</span>
-        </div>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#interests">Interests</a>
+                <a href="/blog.html">Journal</a>
+                <a href="#livestream">Live</a>
+                <a href="#contact" class="nav-contact">Connect</a>
 
-    </section>
-
-
-    <!-- INTRODUCTION -->
-    <section class="journal-intro">
-
-        <div class="section-container intro-content">
-
-            <p class="section-label">MORE THAN JUST A MEMORY</p>
-
-            <h2>
-                Every experience has a story.<br>
-                Every story leaves something behind.
-            </h2>
-
-            <p>
-                This is where I keep the little pieces of my journey:
-                the places that inspire me, the meals that bring joy,
-                and the thoughts that help me grow.
-            </p>
-
-            <span class="intro-script">
-                A little more about life...
-            </span>
+            </nav>
 
         </div>
 
-    </section>
+    </header>
 
 
-    <!-- FEATURED STORY -->
-    <section class="featured-section">
+    <main>
 
-        <div class="section-container">
+        <!-- =========================
+             HERO / HOME
+        ========================== -->
 
-            <div class="section-label">
-                A MOMENT TO REMEMBER
+        <section class="hero" id="home">
+
+            <div class="hero-image"></div>
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <p class="hero-eyebrow">
+                    A PERSONAL SPACE FOR GROWTH & DISCOVERY
+                </p>
+
+                <h1>
+                    Beyond<span>Me.</span>
+                </h1>
+
+                <p class="hero-description">
+                    A journey of discovering who I am, embracing new
+                    experiences, and becoming a little better every day.
+                </p>
+
+                <a href="#about" class="hero-button">
+                    <span>Discover My Story</span>
+                </a>
+
             </div>
 
-            <article class="featured-story">
+            <div class="hero-bottom">
 
-                <div class="featured-image">
-                    <img
-                        src="/images/sunset.jpg"
-                        alt="Sunset over the ocean"
-                    >
+                <span>BE YOURSELF. KEEP GROWING.</span>
+
+                <a href="#philosophy">
+                    SCROLL TO EXPLORE ↓
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PERSONAL PHILOSOPHY
+        ========================== -->
+
+        <section class="philosophy section-padding" id="philosophy">
+
+            <div class="philosophy-container">
+
+                <p class="section-label">
+                    MY PERSONAL PHILOSOPHY
+                </p>
+
+                <h2 class="philosophy-heading">
+                    Life is a journey of becoming.
+                </h2>
+
+                <div class="handwritten-quote">
+
+                    <p>Be myself.</p>
+
+                    <p>Compete with yesterday's me.</p>
+
+                    <p>Grow every day.</p>
+
                 </div>
 
-                <div class="featured-copy">
+                <p class="philosophy-note">
+                    Not about being perfect, but about learning,
+                    evolving, and appreciating every step along the way.
+                </p>
 
-                    <span class="story-category">
-                        TRAVEL & DISCOVERY
-                    </span>
+            </div>
 
-                    <p class="story-date">
-                        A NOTE FROM MY JOURNEY
+        </section>
+
+
+        <!-- =========================
+             ABOUT ME
+        ========================== -->
+
+        <section class="section-padding" id="about">
+
+            <div class="section-container about-grid">
+
+                <div class="about-visual">
+
+                    <div class="about-photo-frame">
+
+                        <img
+                            src="/images/sunrise.jpg"
+                            alt="Sunrise representing new beginnings"
+                        >
+
+                    </div>
+
+                    <p class="about-photo-caption">
+                        Every day is another opportunity to begin.
                     </p>
 
-                    <h2>
-                        Finding beauty in the journey,
-                        not just the destination.
+                </div>
+
+
+                <div class="about-copy">
+
+                    <p class="section-label">
+                        A LITTLE ABOUT ME
+                    </p>
+
+                    <h2 class="section-title">
+                        More than a destination, it's a journey.
                     </h2>
 
                     <p>
-                        Sometimes the most meaningful part of traveling
-                        is not reaching a place. It is slowing down,
-                        noticing the details, and allowing a new
-                        experience to change the way we see the world.
+                        BeyondMe is my personal space to share the
+                        experiences, ideas, interests, and moments
+                        that shape who I am.
                     </p>
 
-                    <a href="#stories" class="text-link">
-                        Explore more stories <span>→</span>
+                    <p>
+                        I believe that growth happens when we stay
+                        curious, explore beyond our comfort zones,
+                        learn from our experiences, and remain open
+                        to new perspectives.
+                    </p>
+
+                    <p>
+                        Through stories, creativity, and meaningful
+                        connections, I hope to document this journey
+                        and inspire others to embrace their own.
+                    </p>
+
+                    <a href="/blog.html" class="outline-button">
+                        <span>Explore My Journal</span>
                     </a>
 
                 </div>
 
-            </article>
+            </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- STORY COLLECTION -->
-    <section class="stories-section" id="stories">
+        <!-- =========================
+             INTERESTS
+        ========================== -->
 
-        <div class="section-container">
+        <section class="interests section-padding" id="interests">
 
-            <div class="stories-heading">
+            <div class="section-container">
 
-                <div>
-                    <p class="section-label">THE JOURNAL</p>
-                    <h2 class="section-title">
-                        Stories along the way.
-                    </h2>
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="section-label">
+                            WHAT MAKES ME, ME
+                        </p>
+
+                        <h2 class="section-title">
+                            Things I Love Exploring
+                        </h2>
+
+                    </div>
+
+                    <p class="section-intro">
+                        Different interests, new perspectives, and
+                        endless opportunities to learn something new.
+                    </p>
+
                 </div>
 
-                <p class="stories-intro">
-                    A growing collection of experiences,
-                    discoveries, and everyday inspiration.
+
+                <div class="interest-grid">
+
+                    <article class="interest-card">
+
+                        <span class="interest-number">01</span>
+
+                        <div class="interest-icon" aria-hidden="true">
+                            ✈
+                        </div>
+
+                        <h3>Travel & Discovery</h3>
+
+                        <p>
+                            Exploring new places, experiencing
+                            different cultures, and collecting
+                            memories along the way.
+                        </p>
+
+                        <span class="interest-tag">
+                            Explore the world
+                        </span>
+
+                    </article>
+
+
+                    <article class="interest-card">
+
+                        <span class="interest-number">02</span>
+
+                        <div class="interest-icon" aria-hidden="true">
+                            ♨
+                        </div>
+
+                        <h3>Food & Cooking</h3>
+
+                        <p>
+                            Discovering flavors, trying new recipes,
+                            and finding joy in preparing and sharing food.
+                        </p>
+
+                        <span class="interest-tag">
+                            Taste & create
+                        </span>
+
+                    </article>
+
+
+                    <article class="interest-card">
+
+                        <span class="interest-number">03</span>
+
+                        <div class="interest-icon" aria-hidden="true">
+                            ✧
+                        </div>
+
+                        <h3>Creativity & Ideas</h3>
+
+                        <p>
+                            Finding inspiration in everyday life
+                            and turning ideas into meaningful
+                            experiences and projects.
+                        </p>
+
+                        <span class="interest-tag">
+                            Imagine & create
+                        </span>
+
+                    </article>
+
+
+                    <article class="interest-card">
+
+                        <span class="interest-number">04</span>
+
+                        <div class="interest-icon" aria-hidden="true">
+                            🌱
+                        </div>
+
+                        <h3>Personal Growth</h3>
+
+                        <p>
+                            Learning continuously, embracing
+                            challenges, and becoming a better
+                            version of myself.
+                        </p>
+
+                        <span class="interest-tag">
+                            Learn & evolve
+                        </span>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             JOURNAL PREVIEW
+        ========================== -->
+
+        <section class="journal section-padding" id="journal">
+
+            <div class="section-container journal-grid">
+
+                <div class="journal-image">
+
+                    <img
+                        src="/images/journal.JPG"
+                        alt="Personal journal and everyday inspiration"
+                    >
+
+                </div>
+
+
+                <div class="journal-copy">
+
+                    <p class="section-label">
+                        THOUGHTS & EXPERIENCES
+                    </p>
+
+                    <h2 class="section-title">
+                        Stories worth sharing.
+                    </h2>
+
+                    <p>
+                        Every experience has a story. The Journal
+                        is where I collect thoughts, reflections,
+                        discoveries, and moments that deserve
+                        to be remembered.
+                    </p>
+
+                    <p>
+                        From everyday inspiration to new adventures,
+                        this is a growing collection of my journey.
+                    </p>
+
+                    <a href="/blog.html" class="outline-button">
+                        <span>Visit the Journal</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             LIVESTREAM
+        ========================== -->
+
+        <section class="livestream section-padding" id="livestream">
+
+            <div class="section-container livestream-content">
+
+                <p class="section-label">
+                    BEYOND THE SCREEN
+                </p>
+
+                <h2 class="section-title">
+                    Let's connect in real time.
+                </h2>
+
+                <p>
+                    BeyondMe is growing into a space for shared
+                    experiences and meaningful conversations.
+                    Livestreaming will bring the community closer
+                    through live moments, discussions, and interactions.
+                </p>
+
+                <a href="#contact" class="dark-button">
+                    <span>Stay Connected</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section class="contact section-padding" id="contact">
+
+            <div class="section-container contact-container">
+
+                <p class="section-label">
+                    LET'S CONNECT
+                </p>
+
+                <h2 class="section-title">
+                    Every connection begins with a conversation.
+                </h2>
+
+                <p>
+                    Thank you for being part of this journey.
+                    Keep exploring, keep learning, and keep
+                    becoming who you want to be.
+                </p>
+
+                <a href="/blog.html" class="contact-link">
+                    Explore more stories
+                    <span>↗</span>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="site-footer">
+
+        <div class="section-container footer-content">
+
+            <div>
+
+                <a href="#home" class="footer-brand">
+                    BeyondMe.
+                </a>
+
+                <p>
+                    Be yourself. Keep growing.
                 </p>
 
             </div>
 
-
-            <!-- CATEGORY FILTERS -->
-            <div class="category-filters" aria-label="Filter stories">
-
-                <button
-                    class="filter-button active"
-                    data-filter="all"
-                    aria-pressed="true"
-                >
-                    All stories
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-filter="travel"
-                    aria-pressed="false"
-                >
-                    Travel
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-filter="cooking"
-                    aria-pressed="false"
-                >
-                    Cooking
-                </button>
-
-                <button
-                    class="filter-button"
-                    data-filter="reflections"
-                    aria-pressed="false"
-                >
-                    Reflections
-                </button>
-
-            </div>
-
-
-            <!-- STORIES ARE LOADED FROM MONGODB THROUGH THE API -->
-            <div class="story-grid" id="story-grid">
-
-                <p class="journal-status" id="journal-loading">
-                    Gathering stories from my journal...
-                </p>
-
-            </div>
-
-            <p class="empty-message" id="empty-message" hidden>
-                No stories in this category yet.
-            </p>
-
-            <p
-                class="journal-status journal-error"
-                id="journal-error"
-                hidden
-            >
-                Unable to load journal stories. Please try again later.
+            <p class="footer-copy">
+                © <span id="current-year"></span> BeyondMe.
+                All rights reserved.
             </p>
 
         </div>
 
-    </section>
+    </footer>
 
 
-    <!-- STORY READING DIALOG -->
-    <dialog class="story-dialog" id="story-dialog">
+    <!-- =========================
+         PAGE SCRIPTS
+    ========================== -->
 
-        <div class="dialog-content">
-
-            <button
-                class="dialog-close"
-                id="dialog-close"
-                type="button"
-                aria-label="Close story"
-            >
-                ×
-            </button>
-
-            <p class="dialog-category" id="dialog-category"></p>
-
-            <h2 class="dialog-title" id="dialog-title"></h2>
-
-            <p class="dialog-date" id="dialog-date"></p>
-
-            <img
-                class="dialog-image"
-                id="dialog-image"
-                alt=""
-                hidden
-            >
-
-            <p class="dialog-body" id="dialog-body"></p>
-
-        </div>
-
-    </dialog>
-
-
-    <!-- STORY PREVIEW -->
-    <section class="story-preview">
-
-        <div class="section-container preview-content">
-
-            <p class="section-label">
-                A THOUGHT TO TAKE WITH YOU
-            </p>
-
-            <h2>
-                "The goal is not to become someone else.
-                It is to discover how much more I can become myself."
-            </h2>
-
-            <p class="preview-script">
-                One day, one experience, one lesson at a time.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- CLOSING -->
-    <section class="journal-closing">
-
-        <div class="section-container closing-content">
-
-            <p class="section-label">
-                THANK YOU FOR BEING HERE
-            </p>
-
-            <h2>
-                There is always another story to discover.
-            </h2>
-
-            <p>
-                This journal will continue to grow as I explore,
-                create, learn, and experience life.
-            </p>
-
-            <a href="/" class="outline-button">
-                Back to my page <span>↗</span>
-            </a>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- FOOTER -->
-<footer class="site-footer">
-
-    <div class="section-container footer-content">
-
-        <a href="/" class="brand footer-brand">
-            Beyond<span>Me</span><span class="brand-dot">.</span>
-        </a>
-
-        <p>
-            A personal journey of curiosity, experiences, and growth.
-        </p>
-
-        <span class="footer-copy">
-            © <span id="current-year"></span> BeyondMe.
-            Made with intention.
-        </span>
-
-    </div>
-
-</footer>
-
-
-<script>
-    // ---------------------------------------------------------
-    // BASIC PAGE ELEMENTS
-    // ---------------------------------------------------------
-
-    document.getElementById("current-year").textContent =
-        new Date().getFullYear();
-
-    const storyGrid = document.getElementById("story-grid");
-    const loadingMessage = document.getElementById("journal-loading");
-    const emptyMessage = document.getElementById("empty-message");
-    const errorMessage = document.getElementById("journal-error");
-
-    const filterButtons = document.querySelectorAll(".filter-button");
-
-    const storyDialog = document.getElementById("story-dialog");
-    const dialogClose = document.getElementById("dialog-close");
-
-    let allPosts = [];
-    let selectedCategory = "all";
-
-
-    // ---------------------------------------------------------
-    // CATEGORY HELPERS
-    // ---------------------------------------------------------
-
-    function normalizeCategory(category) {
-        return String(category || "").trim().toLowerCase();
-    }
-
-    function formatCategory(category) {
-        if (category === "Travel") return "TRAVEL";
-        if (category === "Cooking") return "COOKING";
-        if (category === "Reflections") return "REFLECTIONS";
-
-        return String(category || "JOURNAL").toUpperCase();
-    }
-
-    function formatDate(dateValue) {
-        if (!dateValue) return "A NOTE FROM MY JOURNEY";
-
-        const date = new Date(dateValue);
-
-        if (Number.isNaN(date.getTime())) {
-            return "A NOTE FROM MY JOURNEY";
-        }
-
-        return date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
-    }
-
-
-    // ---------------------------------------------------------
-    // CREATE A STORY CARD SAFELY
-    // ---------------------------------------------------------
-
-    function createStoryCard(post) {
-        const article = document.createElement("article");
-        article.className = "story-card";
-        article.dataset.category = normalizeCategory(post.category);
-
-        const imageLink = document.createElement("a");
-        imageLink.href = "#";
-        imageLink.className = "story-image";
-        imageLink.setAttribute("aria-label", `Read ${post.title}`);
-
-        const image = document.createElement("img");
-        image.src = post.imageUrl || "/images/sunset.jpg";
-        image.alt = post.title || "Journal story";
-        image.loading = "lazy";
-
-        image.onerror = () => {
-            image.onerror = null;
-            image.src = "/images/sunset.jpg";
-        };
-
-        const imageLabel = document.createElement("span");
-        imageLabel.className = "image-label";
-        imageLabel.textContent = formatCategory(post.category);
-
-        imageLink.append(image, imageLabel);
-
-        const content = document.createElement("div");
-        content.className = "story-card-content";
-
-        const date = document.createElement("p");
-        date.className = "story-date";
-        date.textContent = formatDate(post.publishedAt || post.createdAt);
-
-        const title = document.createElement("h3");
-        title.textContent = post.title || "Untitled story";
-
-        const excerpt = document.createElement("p");
-        excerpt.textContent = post.excerpt || "";
-
-        const readLink = document.createElement("a");
-        readLink.href = "#";
-        readLink.className = "read-link";
-        readLink.textContent = "Read the story →";
-
-        const openStory = (event) => {
-            event.preventDefault();
-            showStory(post);
-        };
-
-        imageLink.addEventListener("click", openStory);
-        readLink.addEventListener("click", openStory);
-
-        content.append(date, title, excerpt, readLink);
-        article.append(imageLink, content);
-
-        return article;
-    }
-
-
-    // ---------------------------------------------------------
-    // DISPLAY ALL STORIES
-    // ---------------------------------------------------------
-
-    function renderStories() {
-        storyGrid.replaceChildren();
-
-        const filteredPosts = allPosts.filter(post => {
-            return selectedCategory === "all" ||
-                normalizeCategory(post.category) === selectedCategory;
-        });
-
-        filteredPosts.forEach(post => {
-            storyGrid.appendChild(createStoryCard(post));
-        });
-
-        emptyMessage.hidden = filteredPosts.length !== 0;
-    }
-
-
-    // ---------------------------------------------------------
-    // LOAD PUBLISHED STORIES FROM EXPRESS API
-    // ---------------------------------------------------------
-
-    async function loadStories() {
-        loadingMessage.hidden = false;
-        errorMessage.hidden = true;
-        emptyMessage.hidden = true;
-
-        try {
-            const response = await fetch("/api/posts");
-
-            if (!response.ok) {
-                throw new Error(`Request failed: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (!data.success || !Array.isArray(data.posts)) {
-                throw new Error("Unexpected API response");
-            }
-
-            allPosts = data.posts;
-
-            loadingMessage.hidden = true;
-
-            renderStories();
-
-        } catch (error) {
-            console.error("Unable to load journal stories:", error);
-
-            loadingMessage.hidden = true;
-            errorMessage.hidden = false;
-        }
-    }
-
-
-    // ---------------------------------------------------------
-    // CATEGORY FILTERS
-    // ---------------------------------------------------------
-
-    filterButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            selectedCategory = button.dataset.filter;
-
-            filterButtons.forEach(item => {
-                const isActive = item === button;
-
-                item.classList.toggle("active", isActive);
-                item.setAttribute("aria-pressed", String(isActive));
-            });
-
-            renderStories();
-
-        });
-
-    });
-
-
-    // ---------------------------------------------------------
-    // OPEN A FULL STORY
-    // ---------------------------------------------------------
-
-    function showStory(post) {
-        document.getElementById("dialog-category").textContent =
-            formatCategory(post.category);
-
-        document.getElementById("dialog-title").textContent =
-            post.title || "Untitled story";
-
-        document.getElementById("dialog-date").textContent =
-            formatDate(post.publishedAt || post.createdAt);
-
-        document.getElementById("dialog-body").textContent =
-            post.content || post.excerpt || "";
-
-        const dialogImage = document.getElementById("dialog-image");
-
-        if (post.imageUrl) {
-            dialogImage.src = post.imageUrl;
-            dialogImage.alt = post.title || "Journal story";
-            dialogImage.hidden = false;
-
-            dialogImage.onerror = () => {
-                dialogImage.hidden = true;
-            };
-        } else {
-            dialogImage.hidden = true;
-        }
-
-        storyDialog.showModal();
-    }
-
-
-    // ---------------------------------------------------------
-    // CLOSE STORY DIALOG
-    // ---------------------------------------------------------
-
-    dialogClose.addEventListener("click", () => {
-        storyDialog.close();
-    });
-
-    storyDialog.addEventListener("click", event => {
-        if (event.target === storyDialog) {
-            storyDialog.close();
-        }
-    });
-
-
-    // ---------------------------------------------------------
-    // INITIALIZE JOURNAL
-    // ---------------------------------------------------------
-
-    loadStories();
-
-</script>
+    <script>
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+    </script>
 
 </body>
 </html>
+

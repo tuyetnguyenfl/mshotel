@@ -4,6 +4,7 @@
 // and secure image uploads.
 
 import express from 'express';
+import { AccessToken } from 'livekit-server-sdk';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { ObjectId } from 'mongodb';
@@ -129,6 +130,72 @@ function requireAdmin(req, res, next) {
   });
 }
 
+app.post('/api/admin/livekit/test-token', requireAdmin, async (req, res, next) => {
+  try {
+    const { role } = req.body ?? {};
+
+    // Only allow these two testing roles.
+    if (!['publisher', 'viewer'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Role must be publisher or viewer'
+      });
+    }
+
+    // Check that LiveKit credentials are configured.
+    const {
+      LIVEKIT_URL,
+      LIVEKIT_API_KEY,
+      LIVEKIT_API_SECRET
+    } = process.env;
+
+    if (!LIVEKIT_URL || !LIVEKIT_API_KEY || !LIVEKIT_API_SECRET) {
+      return res.status(503).json({
+        success: false,
+        error: 'LiveKit environment variables are not configured'
+      });
+    }
+
+    // Use one fixed room for Issue 1 testing.
+    const roomName = 'beyondme-issue1-test';
+
+    // Give every test participant a unique identity.
+    const identity = `${role}-${randomUUID()}`;
+
+    // Create a short-lived access token.
+    const accessToken = new AccessToken(
+      LIVEKIT_API_KEY,
+      LIVEKIT_API_SECRET,
+      {
+        identity,
+        ttl: '10m'
+      }
+    );
+
+    // Give the participant permissions based on their role.
+    accessToken.addGrant({
+      roomJoin: true,
+      room: roomName,
+      canPublish: role === 'publisher',
+      canSubscribe: true,
+      canPublishData: false
+    });
+
+    const token = await accessToken.toJwt();
+
+    res.json({
+      success: true,
+      serverUrl: LIVEKIT_URL,
+      roomName,
+      identity,
+      role,
+      token
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
 // -----------------------------------------------------------------------------
 // WEBSITE PAGES
 // -----------------------------------------------------------------------------

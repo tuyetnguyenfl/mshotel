@@ -57,6 +57,7 @@ BeyondMe aims to provide one personal platform where its creator can:
 - Repository: https://github.com/tuyetnguyenfl/mshotel
 - Project proposal: https://github.com/tuyetnguyenfl/mshotel/blob/capstone-planning/docs/india.md
 - Project branch: https://github.com/tuyetnguyenfl/mshotel/tree/capstone-planning
+- JULIETT documentation: https://github.com/tuyetnguyenfl/mshotel/blob/capstone-planning/docs/juliett.md
 
 ### Required preparation
 
@@ -69,7 +70,9 @@ BeyondMe aims to provide one personal platform where its creator can:
 - [ ] Prepare a backup screenshot or short recording of the publishing workflow.
 - [ ] Close unnecessary browser tabs and windows.
 - [ ] Keep administrator credentials private.
-- [ ] Prepare the LiveKit test as optional evidence, not a required production feature.
+- [ ] Prepare the LiveKit test as optional technical evidence, not a required production feature.
+- [ ] Confirm LiveKit credentials and network connectivity before the demonstration.
+- [ ] Prepare multiple browser tabs if demonstrating multiple viewers.
 
 ## 5. Detailed Demo Script
 
@@ -134,6 +137,7 @@ Explain:
 - MongoDB Atlas stores persistent application data.
 - Administrator authentication protects content-management operations.
 - Uploaded journal images are served through the application.
+- LiveKit provides the managed real-time video infrastructure being tested separately.
 
 **Code references:**
 
@@ -142,6 +146,8 @@ Explain:
 - Homepage: `public/index.html`
 - Journal: `public/blog.html`
 - Administrator dashboard: `public/admin.html`
+- LiveKit test: `public/livekit-test.html`
+- LiveKit client logic: `public/js/livekit-test.js`
 
 **Talking point:**
 
@@ -157,27 +163,32 @@ Explain:
 - Image upload.
 - MongoDB persistence.
 - Express API integration.
-- LiveKit publisher/viewer token generation.
-- Browser-to-browser live video test.
+- LiveKit publisher token generation.
+- LiveKit viewer token generation.
+- Browser camera and microphone access.
+- Publisher and viewer connections.
+- Live video and audio communication.
+- Multiple viewers in the same room.
+- Remote video behavior when broadcasting stops.
 
 **Still being developed or validated:**
 
 - Production livestream integration into the main BeyondMe experience.
-- Audio verification.
-- Multi-viewer testing.
 - Secure live-session lifecycle and viewer permissions.
+- Production-ready token management and access controls.
 - Community interaction and commenting.
+- Optional viewer accounts and restricted viewing.
 - Mobile network access and deployment configuration.
 
 **Talking point:**
 
-"I want to distinguish what I have actually implemented and tested from what remains on the roadmap. The livestream has passed an initial browser-to-browser video test, but it is not yet a finished production feature."
+"I want to distinguish what I have actually implemented and tested from what remains on the roadmap. The LiveKit technical prototype has successfully demonstrated browser-based broadcasting, audio, and multiple viewers. However, the production livestream experience and its security controls are still being developed."
 
 ### Part F — What's Next (1.5 minutes)
 
 Introduce the next development direction:
 
-1. Complete the LiveKit provider validation.
+1. Complete LiveKit provider validation.
 2. Implement secure live-session management.
 3. Integrate browser-camera broadcasting into BeyondMe.
 4. Build a public live-viewing experience.
@@ -197,31 +208,37 @@ The current LiveKit experiment is available at:
 
 `http://localhost:3000/livekit-test.html`
 
-**Verified in the initial local test:**
+**Verified in local testing:**
 
 - Administrator-protected publisher token generation.
 - Administrator-protected viewer token generation.
 - Browser camera access.
+- Browser microphone access.
 - Publisher connection to LiveKit.
 - Viewer connection to the same room.
 - Remote video reception.
+- Audio communication between broadcaster and viewer.
+- Multiple viewers connected through three browser tabs.
 - Remote video disappears when broadcasting stops.
 
-**Not yet verified:**
+**Still pending:**
 
-- Audio reception.
-- More than one viewer.
 - Phone-to-computer connectivity.
-- Production integration and access permissions.
+- Production integration with the main BeyondMe website.
+- Secure production live-session lifecycle.
+- Final production access-permission validation.
+- Public deployment and external network testing.
 
 **Backup plan:**
 
 If the live network demonstration fails:
 
-- Show a short prerecorded video of the successful two-tab video test.
-- Use screenshots of the publisher and viewer.
+- Show a short prerecorded video of the successful multi-viewer test.
+- Use screenshots of the publisher and viewers.
 - Continue with the main website demonstration.
 - Do not spend demo time troubleshooting infrastructure.
+
+**Important distinction:** The successful local LiveKit prototype is technical validation, not evidence that the production livestream feature is complete.
 
 ## 7. Audience Feedback
 
@@ -267,6 +284,12 @@ Document:
 - New GitHub Issues created.
 - Existing Issues reprioritized.
 - Milestones or scope adjusted.
+
+**Technical validation update:**
+
+The LiveKit prototype has progressed beyond the initial video-only test. Browser camera, microphone, audio/video communication, and multiple viewers have been successfully tested locally.
+
+Mobile access and production security validation remain outstanding.
 
 **JULIETT outcome:**
 

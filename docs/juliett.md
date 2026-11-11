@@ -76,7 +76,7 @@ BeyondMe aims to provide one personal platform where its creator can:
 
 ## 5. Detailed Demo Script
 
-### Part A — Problem and User (1 minute)
+### Part A — Problem and User 
 
 **Opening:**
 
@@ -86,7 +86,7 @@ BeyondMe is my attempt to create that space.
 
 It starts as a personal brand website and grows toward an interactive platform where people can discover stories, follow experiences, and eventually participate in a community."
 
-### Part B — Experience the Product (3 minutes)
+### Part B — Experience the Product 
 
 **Open:** Homepage
 
@@ -102,7 +102,7 @@ Demonstrate:
 
 "I want visitors to understand the person behind the platform before interacting with its content."
 
-### Part C — Something Interesting (2 minutes)
+### Part C — Something Interesting 
 
 **Open:** Administrator dashboard
 
@@ -122,7 +122,7 @@ Demonstrate this scenario:
 
 "The important part is that the content is not hardcoded into the page. I can manage and publish content through the application, and visitors can see the published result."
 
-### Part D — Behind the Curtain (1.5 minutes)
+### Part D — Behind the Curtain 
 
 Show only the relevant implementation.
 
@@ -153,7 +153,7 @@ Explain:
 
 "I chose this architecture to keep the application maintainable and make future features easier to integrate."
 
-### Part E — Reality Check (1 minute)
+### Part E — Reality Check 
 
 **Working and demonstrated:**
 
@@ -184,7 +184,7 @@ Explain:
 
 "I want to distinguish what I have actually implemented and tested from what remains on the roadmap. The LiveKit technical prototype has successfully demonstrated browser-based broadcasting, audio, and multiple viewers. However, the production livestream experience and its security controls are still being developed."
 
-### Part F — What's Next (1.5 minutes)
+### Part F — What's Next 
 
 Introduce the next development direction:
 
